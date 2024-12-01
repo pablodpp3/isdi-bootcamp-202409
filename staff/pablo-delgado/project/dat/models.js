@@ -24,8 +24,8 @@ const user = new Schema({
     role: {
         type: String, 
         required: true, 
-        enum: ['regular', 'moderator'],
-        default: 'regular'
+        enum: ['customer', 'provider'],
+        default: 'customer'
     }
 }, { versionKey: false })
 
