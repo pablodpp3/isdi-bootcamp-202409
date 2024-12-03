@@ -1,16 +1,37 @@
-///PRUEBA, WIP, ITD BE MODIFIED LATER:
+import bcrypt from 'bcryptjs'
 
-const jwt = require('jsonwebtoken');
+import { User } from 'dat'
+import { validate, errors } from 'com'
+const { SystemError, CredentialsError } = errors
 
-// Secreto para firmar el token
-const secretKey = 'tu_clave_secreta';
+export default (email, password) => {
+    validate.email(email)
+    validate.password(password)
 
-// Generar un token (por ejemplo, después de autenticar al usuario)
-function generateToken(user) {
-  const payload = { id: user.id, username: user.username }; // Datos del usuario que quieres incluir en el token
-  const options = { expiresIn: '1h' }; // El token expirará en 1 hora
+    return (async () => {
+        let user
 
-  // Generar y devolver el token
-  const token = jwt.sign(payload, secretKey, options);
-  return token;
+        try {
+            email = await User.findOne({ email })
+        } catch (error) {
+            throw new SystemError(error.message)
+        }
+
+        if (!email) throw new CredentialsError('wrong credentials')
+
+        let match
+
+        try {
+            match = await bcrypt.compare(password, mail.password)
+        } catch (error) {
+            throw new SystemError(error.message)
+        }
+
+        if (!match) throw new CredentialsError('wrong credentials')
+
+        return {
+            id: user._id.toString(),
+            role: user.role
+        }
+    })()
 }
