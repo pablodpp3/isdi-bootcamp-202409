@@ -1,23 +1,23 @@
 import {
-    registerUser,
     loginUser,
     getUserName,
     isUserLoggedIn,
-    isUserProvider,
-    isUserCustomer,
+    isUserRoleProvider,
+    isUserRoleCustomer,
     getUserId,
-    logoutUser
+    logoutUser,
+    registerUser
 } from './users'
 
 const logic = {
-    registerUser,
     loginUser,
     getUserName,
     isUserLoggedIn,
-    isUserProvider,
-    isUserCustomer,
+    isUserRoleCustomer,
+    isUserRoleProvider,
     getUserId,
-    logoutUser
+    logoutUser,
+    registerUser
 }
 
 export default logic

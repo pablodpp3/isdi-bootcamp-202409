@@ -10,23 +10,19 @@ export default (email, password) => {
 
     return (async () => {
         let user
-
         try {
-            email = await User.findOne({ email })
+            user = await User.findOne({ email })
         } catch (error) {
             throw new SystemError(error.message)
         }
-
-        if (!email) throw new CredentialsError('wrong credentials')
+        if (!user) throw new CredentialsError('wrong credentials')
 
         let match
-
         try {
-            match = await bcrypt.compare(password, mail.password)
+            match = await bcrypt.compare(password, user.password)
         } catch (error) {
             throw new SystemError(error.message)
         }
-
         if (!match) throw new CredentialsError('wrong credentials')
 
         return {

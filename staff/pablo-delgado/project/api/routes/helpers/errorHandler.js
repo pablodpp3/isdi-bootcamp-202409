@@ -23,7 +23,7 @@ export default (error, req, res, next) => {
             break
     }
 
-    res.stauts(status).json({ error: status === 500 ? SystemError.name : error.constructor.name, message: error.message })
+    res.status(status).json({ error: status === 500 ? SystemError.name : error.constructor.name, message: error.message })
 
     console.error(error)
 }

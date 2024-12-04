@@ -2,10 +2,10 @@ import 'dotenv/config'
 import db from 'dat'
 import authenticateUser from './authenticateUser.js'
 
-await db.connect(process.env.MONGO_URL_TEST)
+await db.connect(process.env.MONGO_URL)
 
 try {
-    const user = await authenticateUser('coco@loco.com', '123123123')
+    const user = await authenticateUser('lola@flores.com', '123123123')
 
     console.log(email)
 }catch (error) {

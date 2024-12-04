@@ -4,6 +4,7 @@ const { SystemError } = errors
 
 export default (email, password) => {
     validate.email(email)
+    console.log(email)
     validate.password(password)
 
     return fetch(`http://${import.meta.env.VITE_API_URL}/users/auth`, {

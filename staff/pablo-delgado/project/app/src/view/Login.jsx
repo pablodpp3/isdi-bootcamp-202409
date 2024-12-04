@@ -1,11 +1,9 @@
 import { PasswordInput, Input, Button, Form, Field, Label } from './library'
 
-
-
 import { errors } from 'com'
+import logic from './../logic'
 
 const { SystemError } = errors
-
 
 
 export default function Login(props) {
@@ -16,7 +14,7 @@ export default function Login(props) {
     const handleSubmit = event => {
         event.preventDefault()
 
-        const { target: { username: { value: email }, password: { value: password } } } = event
+        const { target: { email: { value: email }, password: { value: password } } } = event
 
         try {
             logic.loginUser(email, password)
@@ -46,23 +44,26 @@ export default function Login(props) {
         props.onRegisterClick()
     }
 
-    return <main className="flex justify-center items-center flex-col h-full box-border bg-[var(--back-color)]">
-        <h2>Login</h2>
-
-        <Form onSubmit={handleSubmit}>
-            <Field>
-                <Label htmlFor="email">E-mail</Label>
-                <Input type="text" id="email" />
-            </Field>
-
-            <Field>
-                <Label htmlFor="password">Password</Label>
-                <PasswordInput id="password" />
-            </Field>
-
-            <Button type="submit">Login</Button>
-        </Form>
-
-        <a href="" onClick={handleRegisterClick}>Register</a>
-    </main>
+    return  <main className="flex flex-col justify-center items-center h-screen w-full">
+            <h2 className="text-7xl">Login</h2>
+      
+            <Form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4 mx-auto">
+              <Field>
+                <Label htmlFor="email" className="block mb-1 text-sm font-medium">E-mail</Label>
+                <Input type="text" id="email" className="w-full p-2 border border-gray-300 rounded" />
+              </Field>
+      
+              <Field>
+                <Label htmlFor="password" className="block mb-1 text-sm font-medium">Password</Label>
+                <PasswordInput id="password" className="w-full p-2 border border-gray-300 rounded" />
+              </Field>
+      
+              <Button type="submit" className="w-full text-[#F2F2F2] py-3 rounded text-lg font-bold">Login</Button>
+            </Form>
+      
+            <p className="mt-4 text-sm text-gray-600">Don't you have an account?</p>
+      
+            <a href="" onClick={handleRegisterClick} className="text-blue-500 hover:underline">Register</a>
+        </main>
 }
+

@@ -1,11 +1,11 @@
-import Header from './Header'
 import Footer from './Footer'
-import Alert from './Alert'
 import Confirm from './Confirm'
+//import Header from './Header'
+import Alert from './Alert'
 
 export {
-    Header,
     Footer,
-    Alert,
-    Confirm
+    Confirm,
+    //Header,
+    Alert
 }
