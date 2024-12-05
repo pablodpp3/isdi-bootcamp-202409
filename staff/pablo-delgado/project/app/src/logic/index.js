@@ -9,6 +9,8 @@ import {
     registerUser
 } from './users'
 
+import {getCategories} from './explorer/getCategories'
+
 const logic = {
     loginUser,
     getUserName,
@@ -17,7 +19,8 @@ const logic = {
     isUserRoleProvider,
     getUserId,
     logoutUser,
-    registerUser
+    registerUser,
+    getCategories
 }
 
 export default logic

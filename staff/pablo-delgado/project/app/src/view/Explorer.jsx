@@ -1,29 +1,44 @@
 import { useState, useEffect } from 'react';
 import Footer from './components/Footer';
-import logic from '../logic'; // Suponiendo que tienes lógica en este archivo
+import { getCategories, getProvidersByCategory } from '../logic/explorer'
 
 export default function Explorer() {
     const [date, setDate] = useState('');
-    const [categories] = useState(['Centros veterinarios', 'Grooming', 'Entrenamiento', 'Cuidadores']);
+    const [categories, setCategories] = useState([]); // Inicializamos vacío porque las categorías vienen de la API
+    const [selectedCategory, setSelectedCategory] = useState(null); // Corregido el uso de setState a useState
     const [results, setResults] = useState([]);
 
+    // Efecto para cargar las categorías al montar el componente
     useEffect(() => {
-        console.log('Explorer -> useEffect "componentDidMount"');
-
-        const fetchResults = async () => {
+        const fetchCategories = async () => {
             try {
-                const fetchedResults = await logic.getResults(); // Simula tu lógica para obtener resultados
-                setResults(fetchedResults);
+                const fetchedCategories = await getCategories(); // Obtenemos las categorías de la API
+                setCategories(fetchedCategories); // Actualizamos el estado con las categorías obtenidas
             } catch (error) {
                 console.error(error);
-                alert('Error al obtener los resultados');
+                alert('Error al obtener las categorías');
             }
         };
 
-        fetchResults();
-    }, []);
+        fetchCategories();
+    }, []); // Este efecto se ejecuta una vez al montar el componente
 
-    console.log('Explorer -> render');
+    // Efecto para cargar los resultados cuando se selecciona una categoría
+    useEffect(() => {
+        if (!selectedCategory) return; // Si no hay categoría seleccionada, no hacemos nada
+
+        const fetchProviders = async () => {
+            try {
+                const fetchedResults = await getProvidersByCategory(selectedCategory); // Llamamos a la API con la categoría seleccionada
+                setResults(fetchedResults); // Guardamos los resultados en el estado
+            } catch (error) {
+                console.error(error);
+                alert('Error al obtener los resultados para esta categoría');
+            }
+        };
+
+        fetchProviders();
+    }, [selectedCategory]); // Este efecto se ejecuta cuando cambia la categoría seleccionada
 
     return (
         <div className="explorer-container py-12 bg-teal-900 text-white">
@@ -52,12 +67,15 @@ export default function Explorer() {
             <section className="categories text-center mb-6">
                 <h2 className="text-lg font-bold mb-4">Categorías sugeridas</h2>
                 <div className="flex overflow-x-scroll no-scrollbar space-x-4 px-4">
-                    {categories.map((category, index) => (
+                    {categories.map((category) => (
                         <div
-                            key={index}
-                            className="category-item bg-white text-black p-4 rounded-lg shadow min-w-[120px] flex-shrink-0"
+                            key={category.id} // Usamos un id único que venga de la API
+                            className={`category-item bg-white text-black p-4 rounded-lg shadow min-w-[120px] flex-shrink-0 ${
+                                selectedCategory === category.id ? 'bg-blue-500 text-white' : ''
+                            }`}
+                            onClick={() => setSelectedCategory(category.id)} // Actualizamos la categoría seleccionada
                         >
-                            <p className="text-center font-bold">{category}</p>
+                            <p className="text-center font-bold">{category.name}</p>
                         </div>
                     ))}
                 </div>
@@ -70,7 +88,7 @@ export default function Explorer() {
                     {results.length > 0 ? (
                         results.map((result) => (
                             <div
-                                key={result.id}
+                                key={result.id} // Usamos un id único que venga de la API
                                 className="result-item bg-white text-black p-4 rounded-lg shadow"
                             >
                                 <p className="font-bold">{result.name}</p>
