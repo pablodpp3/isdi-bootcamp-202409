@@ -7,7 +7,7 @@ await db.connect(process.env.MONGO_URL)
 try {
     const user = await authenticateUser('lola@flores.com', '123123123')
 
-    console.log(email)
+    console.log(user)
 }catch (error) {
     console.error(error)
 } finally {

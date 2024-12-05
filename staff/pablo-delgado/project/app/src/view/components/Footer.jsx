@@ -2,6 +2,8 @@ import { useLocation } from 'react-router-dom'
 
 import { CalendarIcon, ExplorerIcon, HomeIcon, ProfileIcon } from '../icons'
 
+import { Link } from 'react-router-dom';
+
 export default function Footer({ onNewPostClick }) {
     console.log('Footer -> render')
 

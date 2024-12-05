@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 import logic from '../logic'
 
+import Footer from './components/Footer'
+
 export default function Home() {
     const [services, setServices] = useState([])
     const [recommendations, setRecommendations] = useState([])
@@ -99,12 +101,7 @@ export default function Home() {
                 </div>
             </footer>
 
-            <nav className="fixed bottom-0 w-full bg-teal-800 text-white flex justify-around p-4">
-                <button>Home</button>
-                <button>Explora</button>
-                <button>Citas</button>
-                <button>Perfil</button>
-            </nav>
+            <Footer />
         </div>
     )
 }

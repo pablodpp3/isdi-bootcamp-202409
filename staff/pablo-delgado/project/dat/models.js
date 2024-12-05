@@ -23,10 +23,10 @@ const user = new Schema({
     },
     role: {
         type: String, 
-        required: true, 
+        required: false, 
         enum: ['customer', 'provider'],
         default: 'customer'
-    }
+    }, 
 }, { versionKey: false })
 
 const category = new Schema({
@@ -42,14 +42,37 @@ const category = new Schema({
 }, { versionKey: false })
 
 const provider = new Schema({
-
-})
+    name: {
+        type: String,
+        required: true,
+        minLength: 2
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    services: [{
+        type: String,
+        required: true 
+    }],
+    categories: [{
+        type: ObjectId,
+        ref: 'Category', 
+        required: true
+    }],
+    location: {
+        type: String,
+        required: true 
+    }
+}, { versionKey: false });
 
 const User = model('User', user)
 const Category = model('Category', category)
+const Provider = model('Provider', provider)
 
 export {
     User,
     Category,
-
+    Provider
 }

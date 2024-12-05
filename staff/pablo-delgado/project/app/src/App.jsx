@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
-import { Login, Register, Home, Search } from './view'
+import { Login, Register, Home, Search, Explorer, Appointments } from './view'
 
 import { Alert } from './view/components'
 import { Context } from './view/useContext'
@@ -79,9 +79,9 @@ export default function App() {
 
             <Route path="/home" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/login" />} />
 
-            {/* <Route path="/explorer" element={logic.isUserLoggedIn() ? <Explorer /> : <Navigate to="/login" />} /> */}
+            <Route path="/explorer" element={logic.isUserLoggedIn() ? <Explorer /> : <Navigate to="/login" />} />
 
-            {/* <Route path="/appointments" element={logic.isUserLoggedIn() ? <Appointments /> : <Navigate to="/login" />} /> */}
+            <Route path="/appointments" element={logic.isUserLoggedIn() ? <Appointments /> : <Navigate to="/login" />} />
 
             {/* extra demos */}
             {/*<Route path="/hello/:name" element={<Hello />} /> */}
