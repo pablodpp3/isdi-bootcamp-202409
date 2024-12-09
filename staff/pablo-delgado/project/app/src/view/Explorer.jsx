@@ -4,16 +4,16 @@ import { getCategories, getProvidersByCategory } from '../logic/explorer'
 
 export default function Explorer() {
     const [date, setDate] = useState('');
-    const [categories, setCategories] = useState([]); // Inicializamos vacío porque las categorías vienen de la API
-    const [selectedCategory, setSelectedCategory] = useState(null); // Corregido el uso de setState a useState
+    const [categories, setCategories] = useState([]); 
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [results, setResults] = useState([]);
 
-    // Efecto para cargar las categorías al montar el componente
+    
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const fetchedCategories = await getCategories(); // Obtenemos las categorías de la API
-                setCategories(fetchedCategories); // Actualizamos el estado con las categorías obtenidas
+                const fetchedCategories = await getCategories(); 
+                setCategories(fetchedCategories); 
             } catch (error) {
                 console.error(error);
                 alert('Error al obtener las categorías');
@@ -21,16 +21,16 @@ export default function Explorer() {
         };
 
         fetchCategories();
-    }, []); // Este efecto se ejecuta una vez al montar el componente
+    }, []); 
 
-    // Efecto para cargar los resultados cuando se selecciona una categoría
+    
     useEffect(() => {
-        if (!selectedCategory) return; // Si no hay categoría seleccionada, no hacemos nada
+        if (!selectedCategory) return; 
 
         const fetchProviders = async () => {
             try {
-                const fetchedResults = await getProvidersByCategory(selectedCategory); // Llamamos a la API con la categoría seleccionada
-                setResults(fetchedResults); // Guardamos los resultados en el estado
+                const fetchedResults = await getProvidersByCategory(selectedCategory); 
+                setResults(fetchedResults); 
             } catch (error) {
                 console.error(error);
                 alert('Error al obtener los resultados para esta categoría');
@@ -38,11 +38,11 @@ export default function Explorer() {
         };
 
         fetchProviders();
-    }, [selectedCategory]); // Este efecto se ejecuta cuando cambia la categoría seleccionada
+    }, [selectedCategory]); 
 
     return (
         <div className="explorer-container py-12 bg-teal-900 text-white">
-            {/* Barra de búsqueda */}
+            {/* searchbar */}
             <header className="text-center mb-6">
                 <h1 className="text-3xl font-bold">Explorar Servicios</h1>
                 <input
@@ -52,7 +52,7 @@ export default function Explorer() {
                 />
             </header>
 
-            {/* Selector de fecha */}
+            {/* dsate selector */}
             <section className="date-picker text-center mb-6">
                 <h2 className="text-lg font-bold">¿Cuándo?</h2>
                 <input

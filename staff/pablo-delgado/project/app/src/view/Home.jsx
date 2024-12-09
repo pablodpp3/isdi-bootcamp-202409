@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import logic from '../logic'
 
@@ -7,15 +8,19 @@ import Footer from './components/Footer'
 export default function Home() {
     const [services, setServices] = useState([])
     const [recommendations, setRecommendations] = useState([])
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log('Home -> useEffect "componentDidMount"')
 
-        // Simulación de llamada a lógica para obtener servicios y recomendaciones
+        
         try {
             const fetchData = async () => {
-                const fetchedServices = await logic.getServices() // Simula tu lógica de servicios
-                const fetchedRecommendations = await logic.getRecommendations() // Simula tus recomendaciones
+                const fetchedServices = await logic.getServices() 
+                const fetchedRecommendations = await logic.getRecommendations()
                 setServices(fetchedServices)
                 setRecommendations(fetchedRecommendations)
             }
@@ -27,20 +32,67 @@ export default function Home() {
         }
     }, [])
 
+    const handleSearch = event => {
+        event.preventDefault();
+        const query = event.target.query.value.trim();
+        const distance = event.target.distance.value || 0;
+
+        navigate(`/explorer?q=${query}&distance=${distance}`);
+    }; //nos lleva al apartado de resultados
+
     console.log('Home -> render')
 
     return (
         <div className="home-container py-12 bg-teal-900 text-white">
+            <div className="absolute top-4 right-4">
+                <button
+                    onClick={() => setShowMenu(!showMenu)}
+                    className="bg-white text-black rounded-full w-10 h-10 flex items-center justify-center shadow hover:bg-gray-200"
+                >
+                    👤
+                </button>
+                {showMenu && (
+                    <div className="absolute right-0 mt-2 bg-white text-black rounded-lg shadow-lg w-40">
+                        <button
+                            onClick={() => setIsLoggedIn(!isLoggedIn)}
+                            className="block text-left w-full px-4 py-2 hover:bg-gray-200"
+                        >
+                            {isLoggedIn ? 'Cerrar sesión' : 'Iniciar sesión'}
+                        </button>
+                    </div>
+                )}
+            </div>
+
             <header className="text-center mb-6">
                 <h1 className="text-3xl font-bold">PetCare 🐾</h1>
                 <p className="text-lg mt-2">¿Qué necesitas para tu mascota?</p>
-                <input
-                    type="text"
-                    placeholder="Busca servicios o negocios"
-                    className="mt-4 p-2 w-3/4 mx-auto block rounded"
-                />
+                <form onSubmit={handleSearch} className="mt-4">
+                    <input
+                        type="text"
+                        name="query"
+                        placeholder="Busca servicios o negocios"
+                        className="p-2 w-3/4 mx-auto block rounded text-black"
+                    />
+                   <div className="flex justify-center items-center gap-2 mt-4">
+          
+            <input
+                type="number"
+                name="distance"
+                placeholder="kms"
+                className="p-2 w-20 rounded text-black"
+            />
+            
+            <button
+                type="submit"
+                className="bg-white text-black px-3 py-2 rounded text-sm"
+            >
+                Buscar
+            </button>
+        </div>
+                </form>
             </header>
 
+/// hasta aquí 
             <section className="categories text-center my-6">
                 <div className="flex justify-around items-center">
                     {['Centros veterinarios', 'Grooming', 'Cuidados especializados'].map((category, index) => (

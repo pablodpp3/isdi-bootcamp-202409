@@ -64,6 +64,10 @@ export default function Login(props) {
             <p className="mt-4 text-sm text-gray-600">Don't you have an account?</p>
       
             <a href="" onClick={handleRegisterClick} className="text-blue-500 hover:underline">Register</a>
+
+            <p className="mt-4 text-sm text-gray-600">Are you a partner?</p>
+      
+            <a href="" onClick={handleRegisterClick} className="text-blue-500 hover:underline">Register as a partner</a>
         </main>
 }
 

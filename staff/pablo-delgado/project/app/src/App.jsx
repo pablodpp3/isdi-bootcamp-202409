@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
-import { Login, Register, Home, Search, Explorer, Appointments } from './view'
+import { Login, CustomerRegister, Home, Search, Explorer, Appointments } from './view'
 
 import { Alert } from './view/components'
 import { Context } from './view/useContext'
