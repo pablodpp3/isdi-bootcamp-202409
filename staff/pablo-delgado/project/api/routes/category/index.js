@@ -1,3 +1,3 @@
-import { categoryRouter } from './categoryRouter';
+/* import { categoryRouter } from './categoryRouter.js';
 
-export { categoryRouter }
+export { categoryRouter } */

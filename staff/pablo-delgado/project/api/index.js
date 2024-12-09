@@ -5,7 +5,7 @@ import cors from 'cors'
 
 import { errorHandler } from './routes/helpers/index.js'
 import { usersRouter } from './routes/index.js'
-import { explorer } from './routes/explorer/index.js'
+//import { explorer } from './routes/explorer/index.js'
 
 db.connect(process.env.MONGO_URL).then(() => {
     console.log('connected to db')
@@ -18,9 +18,9 @@ db.connect(process.env.MONGO_URL).then(() => {
 
     server.use('/users', usersRouter)
 
-    server.use('/category', categoryRouter)
+    //server.use('/category', categoryRouter)
 
-    server.use('/explorer', explorer)
+    //server.use('/explorer', explorer)
 
     server.use(errorHandler)
 

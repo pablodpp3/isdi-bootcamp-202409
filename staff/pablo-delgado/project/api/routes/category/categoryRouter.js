@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCategories } from '../category/index.js'; // Importación correcta
+//import { getCategories } from '../category/index.js'; // Importación correcta
 
 const router = express.Router();
 
