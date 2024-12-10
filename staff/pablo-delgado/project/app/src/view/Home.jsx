@@ -5,7 +5,7 @@ import logic from '../logic'
 
 import Footer from './components/Footer'
 
-export default function Home() {
+export default function Home(props) {
     const [services, setServices] = useState([])
     const [recommendations, setRecommendations] = useState([])
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,13 +16,16 @@ export default function Home() {
     useEffect(() => {
         console.log('Home -> useEffect "componentDidMount"')
 
+        //pruebo linkear login
+
+        //need to check again
         
         try {
             const fetchData = async () => {
-                const fetchedServices = await logic.getServices() 
-                const fetchedRecommendations = await logic.getRecommendations()
-                setServices(fetchedServices)
-                setRecommendations(fetchedRecommendations)
+                //const fetchedServices = await logic.getServices() 
+                //const fetchedRecommendations = await logic.getRecommendations()
+                //setServices(fetchedServices)
+                //setRecommendations(fetchedRecommendations)
             }
 
             fetchData()
@@ -42,7 +45,25 @@ export default function Home() {
 
     console.log('Home -> render')
 
-    return (
+    //añadimos cambios
+
+    const handleLoginClick = () => {
+        props.onLoginClick()//Redirección al login al cerrar sesión**
+        // Lógica para iniciar/cerrar sesión
+        // if (isLoggedIn) {
+        //     // Cerrar sesión
+        //     setIsLoggedIn(false);
+        //     setShowMenu(false);
+        // } else {
+        //     setShowMenu(false);
+        //     navigate('/'); //Redirección al login al iniciar sesión
+        // }
+    };
+
+    console.log('Home -> render');
+
+
+    return ( ///BLOQUEADO AQUÍ - WIP 
         <div className="home-container py-12 bg-teal-900 text-white">
             <div className="absolute top-4 right-4">
                 <button
@@ -54,15 +75,15 @@ export default function Home() {
                 {showMenu && (
                     <div className="absolute right-0 mt-2 bg-white text-black rounded-lg shadow-lg w-40">
                         <button
-                            onClick={() => setIsLoggedIn(!isLoggedIn)}
+                            onClick={handleLoginClick} //modifico este handle
                             className="block text-left w-full px-4 py-2 hover:bg-gray-200"
                         >
-                            {isLoggedIn ? 'Cerrar sesión' : 'Iniciar sesión'}
+                            {logic.isUserLoggedIn() ? 'Sign out' : 'Sign in'}
                         </button>
                     </div>
                 )}
             </div>
-
+            
             <header className="text-center mb-6">
                 <h1 className="text-3xl font-bold">PetCare 🐾</h1>
                 <p className="text-lg mt-2">¿Qué necesitas para tu mascota?</p>
@@ -92,7 +113,6 @@ export default function Home() {
                 </form>
             </header>
 
-/// hasta aquí 
             <section className="categories text-center my-6">
                 <div className="flex justify-around items-center">
                     {['Centros veterinarios', 'Grooming', 'Cuidados especializados'].map((category, index) => (
@@ -137,6 +157,7 @@ export default function Home() {
                 </div>
             </section>
 
+//esto será modificado por banner routeable a register
             <section className="center-info my-6 text-center">
                 <p className="text-lg font-bold">Si tienes un centro, eres entrenador canino o cuidador</p>
                 <p className="text-green-400 mt-2">Esto te interesa</p>

@@ -13,3 +13,5 @@ export default function Confirm({ message, level = 'error', onAccepted, onCancel
         </div>
     </div>
 }
+
+export { Confirm }

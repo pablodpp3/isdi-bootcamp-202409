@@ -57,3 +57,5 @@ export default function Footer({ onNewPostClick }) {
         </footer>
     );
 }
+
+export { Footer };

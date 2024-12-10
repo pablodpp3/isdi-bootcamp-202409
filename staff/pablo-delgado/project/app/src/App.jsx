@@ -2,10 +2,12 @@ import { useState } from 'react'
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
-import { Login, Register, Home, Search, Explorer, Appointments } from './view'
-
+import { Login, Register, Home, Search, Explorer, Appointments, Profile } from './view'
 import { Alert } from './view/components'
 import { Context } from './view/useContext'
+import { Footer } from './view/components/Footer.jsx'
+import { Header } from './view/components/Header.jsx'
+//import { Confirm } from './view/components/Confirm.jsx'
 
 import logic from './logic/'
 
@@ -25,7 +27,7 @@ export default function App() {
 
     //const handlePostCreated = () => navigate('/')
 
-    const handleUserLoggedOut = () => navigate('/login')
+    const handleUserLoggedOut = () => navigate('/login') 
 
     const handleUserLoggedIn = () => navigate('/')
 
@@ -33,7 +35,7 @@ export default function App() {
 
     const handleLoginClick = () => navigate('/login')
 
-    const handleUserRegistered = () => navigate('/login')
+    const handleUserRegistered = () => navigate('/') //modifico de login a home
 
     const handleHomeClick = () => navigate('/')
 
@@ -69,28 +71,33 @@ export default function App() {
         confirm(message, callback, level = 'error') { setConfirm({ message, callback, level }) }
     }}>
     
+    <Header onHomeClick={handleHomeClick} onLoggedOut={handleUserLoggedOut} />
 
         <Routes>
-            <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onLoggedIn={handleUserLoggedIn} onRegisterClick={handleRegisterClick} />} />
+            <Route path="/login" element= {<Login onLoggedIn={handleUserLoggedIn} onRegisterClick={handleRegisterClick} />} /> //modifico esta línea
 
-            <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onLoginClick={handleLoginClick} onRegistered={handleUserRegistered} />} />
+            <Route path="/register" element={ <Register onLoginClick={handleLoginClick} onRegistered={handleUserRegistered} />} /> 
 
-            <Route path="/" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/login" />} />
+            <Route path="/" element={logic.isUserLoggedIn() ? <Home onLoginClick={handleLoginClick}/> : <Navigate to="/login" />} /> //modifico a home, quiero que sea opcional
 
-            <Route path="/home" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/login" />} />
+            {/* <Route path="/home" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/" />} /> */}
 
             <Route path="/explorer" element={logic.isUserLoggedIn() ? <Explorer /> : <Navigate to="/login" />} />
 
             <Route path="/appointments" element={logic.isUserLoggedIn() ? <Appointments /> : <Navigate to="/login" />} />
 
+            <Route path="/profile" element={logic.isUserLoggedIn() ? <Profile /> : <Navigate to="/login" />} />
+
             {/* extra demos */}
             {/*<Route path="/hello/:name" element={<Hello />} /> */}
             <Route path="/search" element={<Search />} />
-            {/*<Route path="/profile/:userId/*" element={<Profile />} /> */}
+            <Route path="/profile/:userId/*" element={<Profile />} /> 
         </Routes>
 
         {alert.message && <Alert message={alert.message} level={alert.level} onAccepted={handleAlertAccepted} />}
 
         {confirm.message && <Confirm message={confirm.message} level={confirm.level} onAccepted={handleConfirmAccepted} onCancelled={handleConfirmCancelled} />}
+        {logic.isUserLoggedIn() && <Footer />}
     </Context.Provider>
+    
 }

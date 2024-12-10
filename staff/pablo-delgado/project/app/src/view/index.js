@@ -4,6 +4,7 @@ import Home from './Home'
 import Search from './Search'
 import Explorer from './Explorer'
 import Appointments from './Appointments'
+import Profile from './Profile'
 
 
 export {
@@ -12,5 +13,6 @@ export {
     Home,
     Search,
     Explorer,
-    Appointments
+    Appointments,
+    Profile
 }

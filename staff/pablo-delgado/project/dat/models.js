@@ -62,8 +62,8 @@ const provider = new Schema({
         required: true
     }],
     location: {
-        type: String,
-        required: true 
+        type: point,
+        required: true
     }
 }, { versionKey: false });
 
