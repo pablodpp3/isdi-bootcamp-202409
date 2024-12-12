@@ -5,6 +5,7 @@ import logic from '../logic'
 
 import Footer from './components/Footer'
 
+
 export default function Home(props) {
     const [services, setServices] = useState([])
     const [recommendations, setRecommendations] = useState([])
@@ -15,10 +16,6 @@ export default function Home(props) {
 
     useEffect(() => {
         console.log('Home -> useEffect "componentDidMount"')
-
-        //pruebo linkear login
-
-        //need to check again
         
         try {
             const fetchData = async () => {
@@ -83,7 +80,7 @@ export default function Home(props) {
                     </div>
                 )}
             </div>
-            
+            ///ME QUEDO AQUÍ, NO PUEDO IMPORTAR HEADER
             <header className="text-center mb-6">
                 <h1 className="text-3xl font-bold">PetCare 🐾</h1>
                 <p className="text-lg mt-2">¿Qué necesitas para tu mascota?</p>
@@ -112,7 +109,7 @@ export default function Home(props) {
         </div>
                 </form>
             </header>
-
+            
             <section className="categories text-center my-6">
                 <div className="flex justify-around items-center">
                     {['Centros veterinarios', 'Grooming', 'Cuidados especializados'].map((category, index) => (

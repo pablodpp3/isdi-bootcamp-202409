@@ -4,6 +4,7 @@ import ExplorerIcon from './ExplorerIcon'
 import HomeIcon from './HomeIcon'
 import OpenedEyeIcon from './OpenedEyeIcon'
 import ProfileIcon from './ProfileIcon'
+import LeftArrow from './LeftArrow'
 
 export {
     CalendarIcon,
@@ -11,5 +12,6 @@ export {
     ExplorerIcon,
     HomeIcon,
     OpenedEyeIcon,
-    ProfileIcon
+    ProfileIcon,
+    LeftArrow
 }

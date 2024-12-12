@@ -1,41 +1,80 @@
 import { useSearchParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { searchServices } from '../logic/searchBar'
 
 export default function Search() {
-    console.log('Search -> render')
+    console.log('Search -> render');
 
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const q = searchParams.get('q')
-    const distance = searchParams.get('distance') || 0
+    const q = searchParams.get('q');
+    const distance = searchParams.get('distance') || 0;
 
+    const [results, setResults] = useState([]); // Estado para guardar los resultados
+    const [loading, setLoading] = useState(false); // Estado para el spinner de carga
+    const [error, setError] = useState(null); // Estado para gestionar errores
+
+    // Lógica de búsqueda al cambiar los parámetros
     useEffect(() => {
-        if (q || distance)
-            console.log('searchService', q, distance)
-    }, [q, distance])
+        const fetchData = async () => {
+            if (q || distance) {
+                setLoading(true);
+                setError(null); // Resetear errores previos
 
-    const handleSubmit = event => {
-        event.preventDefault()
+                try {
+                    const userLocation = { lat: 36.7213028, lng: -4.4216366 }; // Coordenadas ejemplo (Málaga)
+                    const fetchedResults = await searchServices(q, distance, userLocation);
+                    setResults(fetchedResults); // Guardar los resultados en el estado
+                } catch (error) {
+                    setError('No se pudieron obtener los servicios. Inténtalo más tarde.');
+                    console.error('Error en la búsqueda:', error);
+                } finally {
+                    setLoading(false); // Detener el spinner de carga
+                }
+            }
+        };
 
-        const form = event.target
+        fetchData();
+    }, [q, distance]);
 
-        const qNew = form.q.value
-        const distanceNew = form.distance.value
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-        if (qNew !== q || distanceNew !== distance)
-            setSearchParams({ q: qNew, distance: distanceNew })
-    }
+        const form = event.target;
 
-    return <main className="py-20">
-        <h2>Search</h2>
+        const qNew = form.q.value;
+        const distanceNew = form.distance.value;
 
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder="query" name="q" />
-            <input type="number" placeholder="distance" name="distance" defaultValue="1" />
+        if (qNew !== q || distanceNew !== distance) {
+            setSearchParams({ q: qNew, distance: distanceNew });
+        }
+    };
 
-            <button type="submit">Search</button>
-        </form>
+    return (
+        <main className="py-20">
+            <h2>Search</h2>
 
-        <p>do a search about {q} and {distance}km</p>
-    </main>
+            <form onSubmit={handleSubmit}>
+                <input type="text" placeholder="query" name="q" defaultValue={q || ''} />
+                <input type="number" placeholder="distance (km)" name="distance" defaultValue={distance || 1} />
+
+                <button type="submit">Search</button>
+            </form>
+
+            {loading && <p>Cargando resultados...</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
+            <p>Resultados para: "{q}" en un radio de {distance} km</p>
+
+            {results.length > 0 ? (
+                <ul>
+                    {results.map((service, index) => (
+                        <li key={index}>{service.name}</li> // Ajusta `service.name` según tu modelo
+                    ))}
+                </ul>
+            ) : (
+                !loading && <p>No se encontraron resultados.</p>
+            )}
+        </main>
+    );
 }

@@ -2,6 +2,18 @@ import mongoose from 'mongoose'
 
 const { Schema, model, Types: { ObjectId } } = mongoose
 
+const pointSchema = new Schema({
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+    },
+    coordinates: {
+        type: [Number], // [longitud, latitud]
+        required: true
+    }
+}, { _id: false }); // para que mongoose no cree subdocumentos
+
 const user = new Schema({
     name: {
         type: String, 
@@ -62,10 +74,16 @@ const provider = new Schema({
         required: true
     }],
     location: {
-        type: point,
+        type: pointSchema,
         required: true
+    },
+    postalCode: { 
+        type: String, 
+        required: false 
     }
 }, { versionKey: false });
+
+provider.index({ location: '2dsphere' });
 
 const User = model('User', user)
 const Category = model('Category', category)

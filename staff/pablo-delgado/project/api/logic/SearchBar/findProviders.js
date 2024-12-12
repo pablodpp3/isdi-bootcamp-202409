@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import logic from '../logic';
-import { searchServices } from '../logic/searchBar'
 
 export default function Explorer() {
     const [results, setResults] = useState([]);

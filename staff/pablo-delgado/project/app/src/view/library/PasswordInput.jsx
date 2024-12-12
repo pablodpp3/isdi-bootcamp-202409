@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import Input from './Input'
 import { OpenedEyeIcon, ClosedEyeIcon } from '../icons'
 
@@ -12,11 +11,15 @@ export default function PasswordInput({ id }) {
         setType(type === 'password' ? 'text' : 'password')
     }
 
-        return <div style={{ display: 'flex' }}>
-            <Input type={type} id={id} />
+    return (
+        <div className="relative w-full">
+            <Input type={type} id={id} className="w-full pr-10" /> {/* Aseguramos que haya espacio a la derecha */}
             <span 
-                style={{ cursor: 'pointer', position: 'absolute', right: '10px' }}
+                style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}
                 onClick={handleToggleClick}
-            >{status}</span>
+            >
+                {status}
+            </span>
         </div>
+    )
 }

@@ -7,6 +7,8 @@ import { Alert } from './view/components'
 import { Context } from './view/useContext'
 import { Footer } from './view/components/Footer.jsx'
 import { Header } from './view/components/Header.jsx'
+import { NoProfile } from './view/ExtraPages/NoProfile.jsx'
+import { NoAppointments } from './view/ExtraPages/NoAppointments.jsx'
 //import { Confirm } from './view/components/Confirm.jsx'
 
 import logic from './logic/'
@@ -80,13 +82,19 @@ export default function App() {
 
             <Route path="/" element={logic.isUserLoggedIn() ? <Home onLoginClick={handleLoginClick}/> : <Navigate to="/login" />} /> //modifico a home, quiero que sea opcional
 
-            {/* <Route path="/home" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/" />} /> */}
+            <Route path="/home" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/" />} />
 
             <Route path="/explorer" element={logic.isUserLoggedIn() ? <Explorer /> : <Navigate to="/login" />} />
 
             <Route path="/appointments" element={logic.isUserLoggedIn() ? <Appointments /> : <Navigate to="/login" />} />
 
             <Route path="/profile" element={logic.isUserLoggedIn() ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/appointments" element={logic.isUserLoggedIn() ? <Appointments /> : <NoAppointments />} />
+            <Route path="/profile" element={logic.isUserLoggedIn() ? <Profile /> : <NoProfile />} />
+            
+            {/* rutas redundantes */}
+            <Route path="/" element={logic.isUserLoggedIn() ? <Home /> : <Navigate to="/login" />} />
+            <Route path="/home" element={<Navigate to="/" />} />
 
             {/* extra demos */}
             {/*<Route path="/hello/:name" element={<Hello />} /> */}
