@@ -2,17 +2,18 @@ import mongoose from 'mongoose'
 
 const { Schema, model, Types: { ObjectId } } = mongoose
 
-const pointSchema = new Schema({
+const point = new Schema({
     type: {
         type: String,
         enum: ['Point'],
-        required: true
+        required: true,
+        default: 'Point'
     },
     coordinates: {
-        type: [Number], // [longitud, latitud]
+        type: [Number],
         required: true
     }
-}, { _id: false }); // para que mongoose no cree subdocumentos
+})
 
 const user = new Schema({
     name: {
@@ -64,22 +65,30 @@ const provider = new Schema({
         required: true,
         unique: true
     },
+    categories: [{
+        type: ObjectId,
+        ref: 'Category', 
+        
+    }],
+    location: {
+        type: point,
+        required: true
+    },
     services: [{
         type: String,
         required: true 
     }],
-    categories: [{
-        type: ObjectId,
-        ref: 'Category', 
+    address: { 
+        type: String, 
         required: true
-    }],
-    location: {
-        type: pointSchema,
-        required: true
+    },
+    city: { 
+        type: String, 
+        required: true 
     },
     postalCode: { 
         type: String, 
-        required: false 
+        required: true 
     }
 }, { versionKey: false });
 
@@ -88,9 +97,11 @@ provider.index({ location: '2dsphere' });
 const User = model('User', user)
 const Category = model('Category', category)
 const Provider = model('Provider', provider)
+const Location = model('Location', point)
 
 export {
     User,
     Category,
-    Provider
+    Provider,
+    Location
 }

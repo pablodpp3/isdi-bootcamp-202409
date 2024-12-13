@@ -11,7 +11,7 @@ import {
 
 import { getCategories } from './searchBar'
 import { SearchWithGeo } from './searchBar'
-
+import { searchServices } from './searchBar'
 const logic = {
     loginUser,
     getUserName,
@@ -22,7 +22,8 @@ const logic = {
     logoutUser,
     registerUser,
     getCategories,
-    SearchWithGeo
+    SearchWithGeo,
+    searchServices
 }
 
 export default logic

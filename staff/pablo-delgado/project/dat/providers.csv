@@ -1,27 +1,2 @@
-name,email,category,location,services,latitude,longitude
-Vet Happy,vet.happy@email.com,vets,Main Street 123, Málaga,Checkups; Vaccines; Surgery,36.7213,-4.4214
-Grooming Paradise,grooming@email.com,grooming,Second Street, Madrid,Haircut; Nails; Bath,40.4168,-3.7038
-Dog Trainers Inc.,trainers@email.com,trainer,Prado Avenue, Sevilla,Obedience; Socializing; Agility,37.3886,-5.9823
-Animal Sitters Pro.,sitters@email.com,pet sitter,Central Road, Granada,Walking; Feeding; Boarding,37.1773,-3.5986
-Paw Perfect Clinic,paw.perfect@email.com,vets,Real Street 45, Valencia,Ultrasounds; Neutering; Emergencies,39.4699,-0.3763
-Fur Friends Groomers,fur.groomers@email.com,grooming,Luna Street 22, Barcelona,Grooming; De-shedding; Hydration,41.3784,2.1936
-Elite Dog Trainers,elite.dog@email.com,trainer,Green Way, Bilbao,Basic Training; Clicker Training; Behavioral Fix,43.2630,-2.9350
-Happy Pets Sitters,happysitters@email.com,pet sitter,Main Avenue, Zaragoza,Visits; Playtime; Long Walks,41.6488,-0.8891
-Healthy Paws Clinic,healthypaws@email.com,vets,Gran Via 100, Málaga,Lab Tests; Vaccines; Hospitalization,36.7213,-4.4214
-Fluffy Grooming Studio,fluffy@email.com,grooming,Marina Street, Cádiz,Flea Treatment; Brushing; Hydrotherapy,36.5333,-6.2998
-Smart Dog Training,smart.dog@email.com,trainer,Dog Lane 12, Sevilla,Advanced Obedience; Positive Reinforcement; Puppy Training,37.3886,-5.9823
-All-Care Sitters,allcare@email.com,pet sitter,New Neighborhood, Murcia,Night Walks; Special Diets; Supervision,37.9835,-1.1307
-Royal Vet Care,royalvet@email.com,vets,Kings Street, Toledo,Vaccines; Microchips; Treatments,39.8628,-4.0273
-Golden Paws Grooming,golden.paws@email.com,grooming,North Street, Valladolid,Style Cuts; Medicinal Baths; Flea Prevention,41.6523,-4.7282
-Top Trainers Academy,toptrainers@email.com,trainer,High Street 25, Burgos,Basic Obedience; Mental Games; Group Training,42.3401,-3.6969
-Tender Care Sitters,tendercare@email.com,pet sitter,Forest Walk, Málaga,Medical Supervision; 24/7 Care; Companionship,36.7213,-4.4214
-Happy Tails Vet,happytails@email.com,vets,River Road 34, Córdoba,Vaccines; X-rays; Emergency Care,37.8882,-4.7794
-Paws & Relax Grooming,pawsrelax@email.com,grooming,Lakeview Avenue 56, Valencia,Bath; Teeth Cleaning; Hair Styling,39.4699,-0.3763
-Pro Dog Trainers,protrainers@email.com,trainer,Dog Park Lane, Madrid,Recall Training; Agility Courses; Puppy Socializing,40.4168,-3.7038
-Safe Haven Sitters,safehaven@email.com,pet sitter,Pine Street 88, Alicante,Feeding; Overnight Care; Walks,38.3450,-0.4831
-Elite Vet Care,elitevet@email.com,vets,Sunset Boulevard 120, Málaga,Diagnostics; Surgeries; Routine Checkups,36.7213,-4.4214
-Barcelona Vet Care,barcelona.vet@email.com,vets,Diagonal Avenue 200, Barcelona,Checkups; Vaccines; Surgery,41.3984,2.1915
-Paws & Claws Grooming,paws.claws@email.com,grooming,Gracia Street 45, Barcelona,Grooming; De-shedding; Bathing,41.4025,2.1614
-Top Dogs Training Academy,topdogs@email.com,trainer,El Born 12, Barcelona,Obedience; Agility; Behavioral Fix,41.3843,2.1827
-Pet Sitters Barcelona,petsitters@email.com,pet sitter,Las Ramblas 85, Barcelona,Feeding; Walking; Boarding,41.3797,2.1735
-Fur-tastic Groomers,fur.tastic@email.com,grooming,Passeig de Sant Joan 123, Barcelona,Flea Treatment; Nail Clipping; Coat Care,41.3992,2.1774
+Vet Happy, vet.happy@email.com, vets, 36.7213, -4.4214, Checkups; Vaccines; Surgery, Main Street 123, Málaga, 29001
+Vet Happy, vet.happy@email.com, vets, 36.7213, -4.4214, Checkups; Vaccines; Surgery, Main Street 123, Málaga, 29001

@@ -1,78 +1,86 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import logic from '../logic'
+import logic from '../logic';
 
-import Footer from './components/Footer'
-
+import Footer from './components/Footer';
+import { ProfileIcon } from './icons';
 
 export default function Home(props) {
-    const [services, setServices] = useState([])
-    const [recommendations, setRecommendations] = useState([])
+    const [services, setServices] = useState([]);
+    const [recommendations, setRecommendations] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-
+    const [postalCode, setPostalCode] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('Home -> useEffect "componentDidMount"')
-        
+        console.log('Home -> useEffect "componentDidMount"');
+
         try {
             const fetchData = async () => {
-                //const fetchedServices = await logic.getServices() 
-                //const fetchedRecommendations = await logic.getRecommendations()
-                //setServices(fetchedServices)
-                //setRecommendations(fetchedRecommendations)
-            }
+                // const fetchedServices = await logic.getServices()
+                // const fetchedRecommendations = await logic.getRecommendations()
+                // setServices(fetchedServices);
+                // setRecommendations(fetchedRecommendations);
+            };
 
-            fetchData()
+            fetchData();
         } catch (error) {
-            alert(error.message)
-            console.error(error)
+            alert(error.message);
+            console.error(error);
         }
-    }, [])
+    }, []);
 
     const handleSearch = event => {
         event.preventDefault();
         const query = event.target.query.value.trim();
-        const distance = event.target.distance.value || 0;
 
-        navigate(`/explorer?q=${query}&distance=${distance}`);
-    }; //nos lleva al apartado de resultados
-
-    console.log('Home -> render')
-
-    //añadimos cambios
-
-    const handleLoginClick = () => {
-        props.onLoginClick()//Redirección al login al cerrar sesión**
-        // Lógica para iniciar/cerrar sesión
-        // if (isLoggedIn) {
-        //     // Cerrar sesión
-        //     setIsLoggedIn(false);
-        //     setShowMenu(false);
-        // } else {
-        //     setShowMenu(false);
-        //     navigate('/'); //Redirección al login al iniciar sesión
-        // }
+        navigate(`/explorer?q=${query}&postalCode=${postalCode}`);
     };
 
-    console.log('Home -> render');
+    const handleUseLocation = () => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
+                    // Aquí puedes implementar lógica para convertir las coordenadas a un código postal.
+                },
+                error => {
+                    console.error('Error obteniendo ubicación:', error);
+                    alert('No se pudo acceder a tu ubicación. Asegúrate de permitir el acceso.');
+                }
+            );
+        } else {
+            alert('La geolocalización no es compatible con este navegador.');
+        }
+    };
 
+    const handleLoginClick = () => {
+        props.onLoginClick();
+        if (isLoggedIn) {
+            setIsLoggedIn(false);
+            setShowMenu(false);
+        } else {
+            setShowMenu(false);
+            navigate('/');
+        }
+    };
 
-    return ( ///BLOQUEADO AQUÍ - WIP 
+    return (
         <div className="home-container py-12 bg-teal-900 text-white">
             <div className="absolute top-4 right-4">
                 <button
                     onClick={() => setShowMenu(!showMenu)}
                     className="bg-white text-black rounded-full w-10 h-10 flex items-center justify-center shadow hover:bg-gray-200"
                 >
-                    👤
+                    <ProfileIcon />
                 </button>
                 {showMenu && (
                     <div className="absolute right-0 mt-2 bg-white text-black rounded-lg shadow-lg w-40">
                         <button
-                            onClick={handleLoginClick} //modifico este handle
+                            onClick={handleLoginClick}
                             className="block text-left w-full px-4 py-2 hover:bg-gray-200"
                         >
                             {logic.isUserLoggedIn() ? 'Sign out' : 'Sign in'}
@@ -80,7 +88,7 @@ export default function Home(props) {
                     </div>
                 )}
             </div>
-            ///ME QUEDO AQUÍ, NO PUEDO IMPORTAR HEADER
+
             <header className="text-center mb-6">
                 <h1 className="text-3xl font-bold">PetCare 🐾</h1>
                 <p className="text-lg mt-2">¿Qué necesitas para tu mascota?</p>
@@ -91,30 +99,39 @@ export default function Home(props) {
                         placeholder="Busca servicios o negocios"
                         className="p-2 w-3/4 mx-auto block rounded text-black"
                     />
-                   <div className="flex justify-center items-center gap-2 mt-4">
-          
-            <input
-                type="number"
-                name="distance"
-                placeholder="kms"
-                className="p-2 w-20 rounded text-black"
-            />
-            
-            <button
-                type="submit"
-                className="bg-white text-black px-3 py-2 rounded text-sm"
-            >
-                Buscar
-            </button>
-        </div>
+                    <div className="flex justify-center items-center gap-2 mt-4">
+                        <input
+                            type="text"
+                            value={postalCode}
+                            onChange={e => setPostalCode(e.target.value)}
+                            placeholder="Código postal"
+                            className="p-2 w-40 rounded text-black"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleUseLocation}
+                            className="bg-white text-black px-3 py-2 rounded text-sm flex items-center gap-2"
+                        >
+                            📍
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-white text-black px-3 py-2 rounded text-sm"
+                        >
+                            Buscar
+                        </button>
+                    </div>
                 </form>
             </header>
-            
+
             <section className="categories text-center my-6">
-                <div className="flex justify-around items-center">
+                <h2 className="text-xl font-bold mb-4">Categorías</h2>
+                <div className="overflow-x-auto flex gap-4 px-4">
                     {['Centros veterinarios', 'Grooming', 'Cuidados especializados'].map((category, index) => (
-                        <div key={index} className="category-item">
-                            <div className="rounded-full bg-white w-16 h-16 mx-auto mb-2"></div>
+                        <div
+                            key={index}
+                            className="category-item bg-white text-black p-4 rounded-lg shadow min-w-[100px] text-center"
+                        >
                             <p>{category}</p>
                         </div>
                     ))}
@@ -175,3 +192,5 @@ export default function Home(props) {
         </div>
     )
 }
+    
+

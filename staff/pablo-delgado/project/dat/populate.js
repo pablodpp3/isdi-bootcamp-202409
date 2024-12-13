@@ -1,10 +1,10 @@
 import 'dotenv/config'
 
 import fs from 'fs/promises'
-import bcrypt from 'bcryptjs'
+//import bcrypt from 'bcryptjs'
 
-import db from './index'
-import { User, Provider } from './models'
+import db, { Provider } from './index.js'
+import { Location } from './models.js'
 
 db.connect(process.env.MONGO_URL)
     .then(() => Provider.deleteMany())  // Elimina los datos previos de proveedores
@@ -13,15 +13,20 @@ db.connect(process.env.MONGO_URL)
         const lines = csv.split('\n')
 
         const creations = lines.map(line => {
-            const [name, email, category, location, services] = line.split(',').map(item => item.trim())
-
+            const [name, email, category, longitude, latitude , services, address, city, postalCode ] = line.split(',').map(item => item.trim()) 
+           
             // Aquí creamos el provider con los campos del CSV
             return Provider.create({
                 name,
                 email,
                 category,
-                location,
-                services: services.split(';')  // Asumiendo que los servicios están separados por punto y coma
+                location: new Location({coordinates: [parseFloat(longitude), parseFloat(latitude)]}),
+                //latitude, 
+                services,
+                //longitude// Asumiendo que los servicios están separados por punto y coma
+                address,
+                city,
+                postalCode
             })
         })
 
