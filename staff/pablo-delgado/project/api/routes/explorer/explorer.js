@@ -13,3 +13,30 @@ export default function Explorer() {
         </div>
     );
 } */
+
+const express = 'express'
+const router = express.Router();
+const ServiceModel = '../models/Service'
+
+    router.get('/services/search', async (req, res) => {
+        const { query, distance } = req.query;
+        const userLocation = [/* lat, lng del usuario */]; // Coordenadas del usuario
+    
+        try {
+            const results = await ServiceModel.find({
+                $text: { $search: query }, // Búsqueda por texto
+                location: {
+                    $near: {
+                        $geometry: { type: "Point", coordinates: userLocation },
+                        $maxDistance: distance * 1000 // Convertir kms a metros
+                    }
+                }
+            });
+    
+            res.json(results);
+        } catch (error) {
+            res.status(500).json({ error: 'Error al buscar servicios.' });
+        }
+    });
+    
+    module.exports = router;

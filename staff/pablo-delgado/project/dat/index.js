@@ -1,5 +1,6 @@
 import { connect, disconnect } from 'mongoose'
 import { User, Provider } from './models.js'
+import './boost-mongoose.js'
 
 
 const db = {

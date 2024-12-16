@@ -60,24 +60,25 @@ const provider = new Schema({
         required: true,
         minLength: 2
     },
-    email: {
+    image: {
         type: String,
-        required: true,
-        unique: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true
+    },
+    openingHours: {
+        type: [String],
+        required: true
     },
     categories: [{
         type: ObjectId,
         ref: 'Category', 
-        
     }],
     location: {
         type: point,
         required: true
     },
-    services: [{
-        type: String,
-        required: true 
-    }],
     address: { 
         type: String, 
         required: true
@@ -91,6 +92,20 @@ const provider = new Schema({
         required: true 
     }
 }, { versionKey: false });
+
+const location = new Schema({
+  address: {
+    type: String,
+    maxLength: 100,
+    required: false
+  },
+  location: {
+    type: point,
+    required: false
+  }
+}, { versionKey: false })
+
+location.index({ location: '2dsphere' });
 
 provider.index({ location: '2dsphere' });
 

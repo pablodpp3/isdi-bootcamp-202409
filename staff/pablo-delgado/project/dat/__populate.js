@@ -19,7 +19,7 @@ db.connect(process.env.MONGO_URL)
             return Provider.create({
                 name,
                 email,
-                category,
+                category: new Category({name: {}, }),
                 location: new Location({coordinates: [parseFloat(longitude), parseFloat(latitude)]}),
                 //latitude, 
                 services,

@@ -1,80 +1,69 @@
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { searchServices } from '../logic/searchBar'
 
-export default function Search() {
-    console.log('Search -> render');
+import Container from '../view/library/Container'
+import Form from '../view/library/Form'
+import Input from '../view/library/Input'
+import Button from '../view/library/Button'
 
-    const [searchParams, setSearchParams] = useSearchParams();
+export default function SearchProvider() {
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [query, setQuery] = useState('')
 
-    const q = searchParams.get('q');
-    const distance = searchParams.get('distance') || 0;
+    const q = searchParams.get('q')
+    const distance = searchParams.get('distance')
 
-    const [results, setResults] = useState([]); // Estado para guardar los resultados
-    const [loading, setLoading] = useState(false); // Estado para el spinner de carga
-    const [error, setError] = useState(null); // Estado para gestionar errores
-
-    // Lógica de búsqueda al cambiar los parámetros
     useEffect(() => {
-        const fetchData = async () => {
-            if (q || distance) {
-                setLoading(true);
-                setError(null); // Resetear errores previos
+        if (q)
+            setQuery(q, distance)
+    }, [q, distance])
 
-                try {
-                    const userLocation = { lat: 36.7213028, lng: -4.4216366 }; // Coordenadas ejemplo (Málaga)
-                    const fetchedResults = await searchServices(q, distance, userLocation);
-                    setResults(fetchedResults); // Guardar los resultados en el estado
-                } catch (error) {
-                    setError('No se pudieron obtener los servicios. Inténtalo más tarde.');
-                    console.error('Error en la búsqueda:', error);
-                } finally {
-                    setLoading(false); // Detener el spinner de carga
-                }
-            }
-        };
+    const handleSearchProviderSubmit = event => {
+        event.preventDefault()
 
-        fetchData();
-    }, [q, distance]);
+        const form = event.target
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+        const { value: query } = form.q
+        const { value: distance } = form.distance
 
-        const form = event.target;
+        if (!query.trim())
+            navigate('/search')
+        else if (location.pathname !== '/search')
+            navigate(`/search?q=${query}&distance=${distance}`)
+        else
+            setSearchParams({ q: query, distance })
 
-        const qNew = form.q.value;
-        const distanceNew = form.distance.value;
+        setQuery(query)
+    }
 
-        if (qNew !== q || distanceNew !== distance) {
-            setSearchParams({ q: qNew, distance: distanceNew });
-        }
-    };
+    const handleInputChange = event => {
+        const { value: query } = event.target
 
-    return (
-        <main className="py-20">
-            <h2>Search</h2>
+        setQuery(query)
+    }
 
-            <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="query" name="q" defaultValue={q || ''} />
-                <input type="number" placeholder="distance (km)" name="distance" defaultValue={distance || 1} />
-
-                <button type="submit">Search</button>
-            </form>
-
-            {loading && <p>Cargando resultados...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <p>Resultados para: "{q}" en un radio de {distance} km</p>
-
-            {results.length > 0 ? (
-                <ul>
-                    {results.map((service, index) => (
-                        <li key={index}>{service.name}</li> // Ajusta `service.name` según tu modelo
-                    ))}
-                </ul>
-            ) : (
-                !loading && <p>No se encontraron resultados.</p>
-            )}
-        </main>
-    );
+    return <>
+        <Container>
+            <Form onSubmit={handleSearchProviderSubmit}>
+                <Container className="flex flex-row items-center" >
+                    <Input className="border border-black" type="text" name="q" id="search-input" placeholder="Search" value={query} onChange={handleInputChange} />
+                    <Button type="submit">
+                        <Image className="h-[30px] w-[30px]" src="/searchIcon.svg" alt="Search icon" /> 
+                    </Button>
+                </Container>
+                <Container>
+                    <Container className="flex justify-between w-full mt-3 text-xs">
+                        <Span>0km</Span>
+                        <Span>2.5km</Span>
+                        <Span>5km</Span>
+                        <Span>7.5km</Span>
+                        <Span>10km</Span>
+                    </Container>
+                    <Input type="range" min="0" max="10" name="distance" className="h-2 w-full cursor-ew-resize appearance-none rounded-full bg-gray-200 disabled:cursor-not-allowed" />
+                </Container>
+            </Form>
+        </Container>
+    </>
 }

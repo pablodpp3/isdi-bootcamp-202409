@@ -1,89 +1,74 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import searchServices from '../logic/searchBar'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-export default function Explorer() {
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const location = useLocation();
-    const navigate = useNavigate();
+import Container from '../view/library/Container'
+import Form from '../view/library/Form'
+import Input from '../view/library/Input'
+import Button from '../view/library/Button'
+import Span from '../view/library/Span.jsx'
+import { ExplorerIcon } from './icons'
 
-    // Manejo de parámetros desde la URL
+export default function SearchProvider() {
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [query, setQuery] = useState('')
+
+    const q = searchParams.get('q')
+    const distance = searchParams.get('distance')
+
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const query = searchParams.get('q') || '';
-        const distance = searchParams.get('distance') || 0;
+        if (q)
+            setQuery(q, distance)
+    }, [q, distance])
 
-        // Lógica para buscar resultados
-        const fetchResults = async () => {
-            setLoading(true);
-            try {
-                const fetchedResults = await searchServices({ query, distance });
-                setResults(fetchedResults);
-            } catch (error) {
-                console.error('Error al buscar servicios:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchResults();
-    }, [location]);
-
-    // Función para manejar la búsqueda
-    const handleSearch = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const query = form.query.value.trim();
-        const distance = form.distance.value.trim();
-
-        // Actualizar la URL con los parámetros de búsqueda
-        const params = new URLSearchParams({ q: query, distance });
-        navigate(`/explorer?${params.toString()}`);
+    const handleSearchProviderSubmit = (event) => {
+        event.preventDefault();
+    
+        const form = event.target;
+        const queryInput = form.q;
+        const distanceInput = form.distance;
+    
+        const query = queryInput?.value || '';
+        const distance = distanceInput?.value || '';
+    
+        if (!query.trim()) {
+            navigate('/explorer');
+        } else if (location.pathname !== '/explorer') {
+            navigate(`/explorer?q=${query}&distance=${distance}`);
+        } else {
+            setSearchParams({ q: query, distance });
+        }
+    
+        setQuery(query);
     };
+    
+    const handleInputChange = event => {
+        const { value: query } = event.target
 
-    return (
-        <div className="explorer-container py-12 bg-teal-900 text-white">
-            <h1 className="text-2xl font-bold mb-6 text-center">Explorar Servicios</h1>
+        setQuery(query)
+    }
 
-            {/* Barra de búsqueda */}
-            <form className="mb-6 flex justify-center gap-4" onSubmit={handleSearch}>
-                <input
-                    type="text"
-                    name="query"
-                    placeholder="Buscar servicios"
-                    className="p-2 rounded border w-1/3"
-                />
-                <input
-                    type="number"
-                    name="distance"
-                    placeholder="Distancia (km)"
-                    className="p-2 rounded border w-1/6"
-                />
-                <button type="submit" className="p-2 bg-blue-500 text-white rounded">
-                    Buscar
-                </button>
-            </form>
-            //modificar hasta aquí
-            {/* Resultados */}
-            {loading ? (
-                <p className="text-center text-gray-400">Cargando resultados...</p>
-            ) : results.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {results.map(result => (
-                        <div
-                            key={result.id}
-                            className="result-item bg-white text-black p-4 rounded-lg shadow"
-                        >
-                            <h2 className="text-lg font-bold">{result.name}</h2>
-                            <p>{result.description}</p>
-                            <p className="text-sm text-gray-600">Distancia: {result.distance} km</p>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <p className="text-center text-gray-400">No se encontraron resultados.</p>
-            )}
-        </div>
-    );
+    return <>
+        <Container>
+            <Form onSubmit={handleSearchProviderSubmit}>
+                <Container className="flex flex-row items-center" >
+                    <Input className="border border-black" type="text" name="q" id="search-input" placeholder="Search" value={query} onChange={handleInputChange} />
+                    <Button type="submit">
+                        <ExplorerIcon /> 
+                    </Button>
+                </Container>
+                <Container>
+                    <Container className="flex justify-between w-full mt-3 text-xs">
+                        <Span>0km</Span>
+                        <Span>2.5km</Span>
+                        <Span>5km</Span>
+                        <Span>7.5km</Span>
+                        <Span>10km</Span>
+                    </Container>
+                    <Input type="range" min="0" max="10" name="distance" className="h-2 w-full cursor-ew-resize appearance-none rounded-full bg-gray-200 disabled:cursor-not-allowed" />
+                </Container>
+            </Form>
+        </Container>
+    </>
 }
