@@ -51,6 +51,38 @@ const validateCallback = callback => {
     if (typeof callback !== 'function') throw new ValidationError('invalid callback')
 }
 
+//
+const validateString = (value, name) => {
+    if (typeof value !== 'string') throw new ValidationError(`${name} must be a string`)
+    if (value.trim().length === 0) throw new ValidationError(`${name} cannot be empty`)
+}
+
+const validateNumber = (value, name) => {
+    if (typeof value !== 'number' || isNaN(value)) throw new ValidationError(`${name} must be a valid number`)
+}
+
+const validateArray = (value, name) => {
+    if (!Array.isArray(value)) throw new ValidationError(`${name} must be an array`)
+}
+
+const validateCoordinate = (value, name) => {
+    if (typeof value !== 'number' || isNaN(value)) throw new ValidationError(`${name} must be a valid coordinate`)
+}
+
+const validateQuery = query => {
+    validateString(query, 'query') // Reutiliza validateString
+}
+
+const validateDistance = distance => {
+    validateNumber(distance, 'distance') // Reutiliza validateNumber
+}
+
+const validateCoords = coords => {
+    validateArray(coords, 'coords') // Reutiliza validateArray
+    if (coords.length !== 2) throw new ValidationError('coords must have two elements')
+    validateCoordinate(coords[0], 'longitude') // Reutiliza validateCoordinate
+    validateCoordinate(coords[1], 'latitude') // Reutiliza validateCoordinate
+}
 const validate = {
     name: validateName,
     email: validateEmail,
@@ -60,7 +92,11 @@ const validate = {
     image: validateImage,
     text: validateText,
     id: validateId,
-    callback: validateCallback
+    callback: validateCallback,
+    string: validateString, 
+    number: validateNumber, 
+    array: validateArray,  
+    coordinate: validateCoordinate
 }
 
 export default validate

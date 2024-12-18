@@ -30,7 +30,6 @@ const user = new Schema({
     password: {
         type: String,
         required: true,
-        unique: true,
         minLength: 3,
         maxLength: 60
     },
@@ -49,7 +48,7 @@ const category = new Schema({
         minLength: 2
     },
     description: {
-        type: String, 
+        type: String,
         default: ''
     }
 }, { versionKey: false })

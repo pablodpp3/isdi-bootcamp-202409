@@ -5,9 +5,10 @@ import Search from './Search'
 import Explorer from './Explorer'
 import Appointments from './Appointments'
 import Profile from './Profile'
-//import Provider from './Provider'
-//import ResultsProvidersList from './ResultsProvidersList'
-//import Search from './Search'
+import Provider from './Provider'
+import ResultsProvidersList from './ResultsProvidersList'
+import Search from './Search'
+import WishList from './WishList'
 
 
 export {
@@ -18,6 +19,8 @@ export {
     Explorer,
     Appointments,
     Profile,
-    //Provider,
-    //ResultsProvidersList
+    Provider,
+    ResultsProvidersList,
+    Search,
+    WishList
 }

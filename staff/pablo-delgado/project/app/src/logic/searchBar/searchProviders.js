@@ -3,7 +3,14 @@ import { validate, errors } from '../../../../com/index.js'
 const { SystemError } = errors
 
 export default (query, distance, coords) => {
-    validate.string(query, 'query')
+    // Si query está vacío, no realizamos la validación de string y le damos un valor predeterminado
+    if (query && query.trim() !== '') {
+        validate.string(query, 'query')
+    } else {
+        query = '' // Deja query vacío si no tiene valor
+    }
+    
+    // Validación de otros parámetros
     validate.number(distance, 'distance')
     validate.array(coords, 'coords')
     validate.number(coords[0], 'longitude')

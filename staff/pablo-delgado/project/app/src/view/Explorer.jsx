@@ -1,74 +1,77 @@
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
 
 import Container from '../view/library/Container'
-import Form from '../view/library/Form'
-import Input from '../view/library/Input'
-import Button from '../view/library/Button'
-import Span from '../view/library/Span.jsx'
-import { ExplorerIcon } from './icons'
+import Form from '../view/library/Form';
+import Input from '../view/library/Input';
+import Button from '../view/library/Button';
+import ExplorerIcon from './icons/ExplorerIcon'
+//import Image from '../view/library/Image';
 
-export default function SearchProvider() {
-    const navigate = useNavigate()
-    const location = useLocation()
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [query, setQuery] = useState('')
+export default function SearchProviders() {
+    const navigate = useNavigate();
+    const searchInputRef = useRef(null);
+    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [query, setQuery] = useState('');
 
-    const q = searchParams.get('q')
-    const distance = searchParams.get('distance')
+    // const q = searchParams.get('q'); // Obtén el valor de búsqueda desde los parámetros de la URL
 
-    useEffect(() => {
-        if (q)
-            setQuery(q, distance)
-    }, [q, distance])
+    // useEffect(() => {
+    //     if (q) {
+    //         setQuery(q); // Si hay una búsqueda previa, actualizamos el estado
+    //     }
+    // }, [q]);
 
-    const handleSearchProviderSubmit = (event) => {
+    const handleSearchSubmit = event => {
         event.preventDefault();
-    
+
+        const queryValue = searchInputRef.current.value.trim();
         const form = event.target;
-        const queryInput = form.q;
-        const distanceInput = form.distance;
-    
-        const query = queryInput?.value || '';
-        const distance = distanceInput?.value || '';
-    
-        if (!query.trim()) {
-            navigate('/explorer');
-        } else if (location.pathname !== '/explorer') {
-            navigate(`/explorer?q=${query}&distance=${distance}`);
+        console.log(form)
+
+        // Asegúrate de acceder al valor del campo "q" de manera segura
+        console.log(form.elements)
+        //const queryValue = form.elements.q.value.trim();
+
+        // Si el valor de búsqueda está vacío, redirigimos a la página de búsqueda vacía
+        if (!queryValue) {
+            navigate('/search');
+        } else if (location.pathname !== '/search') {
+            // Si la ruta no es /search, navegamos a la página de búsqueda con los parámetros de búsqueda
+            navigate(`/search?q=${queryValue}`);
         } else {
-            setSearchParams({ q: query, distance });
+            // Si ya estamos en la página de búsqueda, actualizamos los parámetros de la URL
+            setSearchParams({ q: queryValue });
         }
-    
-        setQuery(query);
+
+        setQuery(queryValue); // Actualizamos el estado con el valor de la búsqueda
     };
-    
+
     const handleInputChange = event => {
-        const { value: query } = event.target
+        const { value } = event.target;
+        setQuery(value); // Actualizamos el estado con el valor ingresado en el input
+    };
 
-        setQuery(query)
-    }
-
-    return <>
+    return (
         <Container>
-            <Form onSubmit={handleSearchProviderSubmit}>
-                <Container className="flex flex-row items-center" >
-                    <Input className="border border-black" type="text" name="q" id="search-input" placeholder="Search" value={query} onChange={handleInputChange} />
+            <Form onSubmit={handleSearchSubmit}>
+                <Container className="flex flex-row items-center">
+                    <input
+                        ref={searchInputRef}
+                        className="border border-black"
+                        type="text"
+                        name="q"
+                        id="search-input"
+                        placeholder="Search by center, service, or category"
+                        value={query}
+                        onChange={handleInputChange}
+                    />
                     <Button type="submit">
-                        <ExplorerIcon /> 
+                        <ExplorerIcon />
                     </Button>
-                </Container>
-                <Container>
-                    <Container className="flex justify-between w-full mt-3 text-xs">
-                        <Span>0km</Span>
-                        <Span>2.5km</Span>
-                        <Span>5km</Span>
-                        <Span>7.5km</Span>
-                        <Span>10km</Span>
-                    </Container>
-                    <Input type="range" min="0" max="10" name="distance" className="h-2 w-full cursor-ew-resize appearance-none rounded-full bg-gray-200 disabled:cursor-not-allowed" />
                 </Container>
             </Form>
         </Container>
-    </>
+    );
 }

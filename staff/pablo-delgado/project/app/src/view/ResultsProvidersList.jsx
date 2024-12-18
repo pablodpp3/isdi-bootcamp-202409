@@ -6,7 +6,7 @@ import logic from '../../logic'
 
 import Provider from './Provider'
 
-export default function ResultsHCPList() {
+export default function ResultsProvidersList() {
     const [searchParams] = useSearchParams()
     const [Providers, setProviders] = useState([])
     const { alert } = useContext()
@@ -15,15 +15,15 @@ export default function ResultsHCPList() {
     const distance = Number(searchParams.get('distance'))
 
     useEffect(() => {
-        loadHCP()
+        loadProvider()
     }, [q, distance])
 
-    const loadHCP = () => {
+    const loadProvider = () => {
         if (q !== null) {
             navigator.geolocation.getCurrentPosition((position => {
                 const coords = [position.coords.latitude, position.coords.longitude]
                 try {
-                    logic.searchHCP(q, distance, coords)
+                    logic.searchProvider(q, distance, coords)
                         .then(Providers => setProviders(Providers))
                         .catch(error => {
                             console.error(error)

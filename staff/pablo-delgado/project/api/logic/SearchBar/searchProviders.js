@@ -1,40 +1,41 @@
-import { User, Provider } from '../data/models.js'
+import { Provider, Category } from '../../../../data/models.js'  // Ajusta el path de importación a tu estructura
+import { validate, errors } from '../../../../com/index.js'
 
-import { validate, errors } from '../../com/index.js'
+const { SystemError } = errors
 
-const { NotFoundError, SystemError } = errors
-
-export default (userId, query, distance, coords) => {
-    validate.id(userId, 'userId')
-    validate.string(query, 'query')
+export default (query, distance, coords) => {
+    // Si query está vacío, no realizamos la validación de string y le damos un valor predeterminado
+    if (query && query.trim() !== '') {
+        validate.string(query, 'query')
+    } else {
+        query = '' // Deja query vacío si no tiene valor
+    }
+    
+    // Validación de otros parámetros
     validate.number(distance, 'distance')
     validate.array(coords, 'coords')
     validate.number(coords[0], 'longitude')
     validate.number(coords[1], 'latitude')
 
-    return User.findById(userId).lean()
-        .catch(error => { throw new SystemError(error.message) })
-        .then(user => {
-            if (!user) throw new NotFoundError('user not found')
+    return Provider.find({
+        $or: [
+            { name: new RegExp(query, 'i') },                // Busca en el nombre del proveedor
+            { category: { $regex: new RegExp(query, 'i') } },    // Busca en las et // Busca en los servicios de las categorías
+        ]
+    })
+    .populate({
+        path: 'categories', // Poblamos las categorías del proveedor
+        select: 'services'  // Solo seleccionamos los servicios
+    })
+    .lean()  // Para evitar obtener instancias de mongoose
+    .then(providers => {
+        if (!providers || providers.length === 0) {
+            throw new SystemError('No providers found');
+        }
 
-            return Provider.find({
-                $or: [{ name: new RegExp(query, 'i') }, { tags: { $regex: new RegExp(query, 'i') } }],
-                location: {
-                    $near: {
-                        $geometry: { type: 'Point', coordinates: coords },
-                        $maxDistance: 1000 * distance
-                    }
-                }
-            }, { __v: 0 }).sort({ name: 1 }).lean()
-                .catch(error => { throw new SystemError(error.message) })
-                .then(Provider => Provider.map(healthCareProvider => {
-                    Provider.id = Provider._id.toString()
-                    Provider.location.id = Provider.location._id.toString()
-                    delete Provider._id
-                    delete Provider.location._id
-
-                    return healthCareProvider
-                })
-                )
-        })
-}
+        return providers;
+    })
+    .catch(error => {
+        throw new SystemError(error.message);
+    });
+};

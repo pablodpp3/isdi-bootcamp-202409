@@ -1,10 +1,12 @@
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import Container from '../view/library/Container'
-import Form from '../view/library/Form'
-import Input from '../view/library/Input'
-import Button from '../view/library/Button'
+import Container from './library/Container'
+import Form from './library/Form'
+import Input from './library/Input'
+import Button from './library/Button'
+import Span from './library/Span'
+
 
 export default function SearchProvider() {
     const navigate = useNavigate()
@@ -48,20 +50,8 @@ export default function SearchProvider() {
         <Container>
             <Form onSubmit={handleSearchProviderSubmit}>
                 <Container className="flex flex-row items-center" >
-                    <Input className="border border-black" type="text" name="q" id="search-input" placeholder="Search" value={query} onChange={handleInputChange} />
-                    <Button type="submit">
-                        <Image className="h-[30px] w-[30px]" src="/searchIcon.svg" alt="Search icon" /> 
-                    </Button>
-                </Container>
-                <Container>
-                    <Container className="flex justify-between w-full mt-3 text-xs">
-                        <Span>0km</Span>
-                        <Span>2.5km</Span>
-                        <Span>5km</Span>
-                        <Span>7.5km</Span>
-                        <Span>10km</Span>
-                    </Container>
-                    <Input type="range" min="0" max="10" name="distance" className="h-2 w-full cursor-ew-resize appearance-none rounded-full bg-gray-200 disabled:cursor-not-allowed" />
+                    <input className="border border-black" type="text" name="q" id="search-input" placeholder="Search" value={query} onChange={handleInputChange} />
+                    <Button type="submit">Search</Button>
                 </Container>
             </Form>
         </Container>
