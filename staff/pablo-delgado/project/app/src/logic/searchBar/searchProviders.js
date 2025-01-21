@@ -2,7 +2,7 @@ import { validate, errors } from '../../../../com/index.js'
 
 const { SystemError } = errors
 
-export default (query, distance, coords) => {
+export default function searchProviders(query, distance, coords) {
     // Si query está vacío, no realizamos la validación de string y le damos un valor predeterminado
     if (query && query.trim() !== '') {
         validate.string(query, 'query')

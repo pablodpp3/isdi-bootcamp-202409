@@ -107,13 +107,7 @@ export default function Home(props) {
                             placeholder="Código postal"
                             className="p-2 w-40 rounded text-black"
                         />
-                        <button
-                            type="button"
-                            onClick={handleUseLocation}
-                            className="bg-white text-black px-3 py-2 rounded text-sm flex items-center gap-2"
-                        >
-                            📍
-                        </button>
+
                         <button
                             type="submit"
                             className="bg-white text-black px-3 py-2 rounded text-sm"

@@ -36,10 +36,10 @@ export default function SearchProviders() {
 
         // Si el valor de búsqueda está vacío, redirigimos a la página de búsqueda vacía
         if (!queryValue) {
-            navigate('/search');
-        } else if (location.pathname !== '/search') {
+            navigate('/explorer');
+        } else if (location.pathname !== '/explorer') {
             // Si la ruta no es /search, navegamos a la página de búsqueda con los parámetros de búsqueda
-            navigate(`/search?q=${queryValue}`);
+            navigate(`/explorer?q=${queryValue}`);
         } else {
             // Si ya estamos en la página de búsqueda, actualizamos los parámetros de la URL
             setSearchParams({ q: queryValue });

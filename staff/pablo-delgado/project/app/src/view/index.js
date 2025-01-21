@@ -7,8 +7,8 @@ import Appointments from './Appointments'
 import Profile from './Profile'
 import Provider from './Provider'
 import ResultsProvidersList from './ResultsProvidersList'
-import Search from './Search'
 import WishList from './WishList'
+import SearchAndResults from './SearchAndResults'
 
 
 export {
@@ -21,6 +21,6 @@ export {
     Profile,
     Provider,
     ResultsProvidersList,
-    Search,
-    WishList
+    WishList,
+    SearchAndResults
 }

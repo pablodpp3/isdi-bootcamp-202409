@@ -1,4 +1,4 @@
-import { Provider, Category } from '../../../../data/models.js'  // Ajusta el path de importación a tu estructura
+import { Provider } from '../../../../data/models.js'  // Ajusta el path de importación a tu estructura
 import { validate, errors } from '../../../../com/index.js'
 
 const { SystemError } = errors
@@ -20,7 +20,7 @@ export default (query, distance, coords) => {
     return Provider.find({
         $or: [
             { name: new RegExp(query, 'i') },                // Busca en el nombre del proveedor
-            { category: { $regex: new RegExp(query, 'i') } },    // Busca en las et // Busca en los servicios de las categorías
+            { tags: { $regex: new RegExp(query, 'i') } },    // Busca en las et // Busca en los servicios de las categorías
         ]
     })
     .populate({

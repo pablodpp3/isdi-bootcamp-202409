@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import useContext from '../context.js'
 
-import logic from '../../logic'
+import logic from '../logic'
 
 import Provider from './Provider'
 
