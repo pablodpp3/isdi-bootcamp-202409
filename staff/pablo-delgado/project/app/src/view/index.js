@@ -8,7 +8,8 @@ import Profile from './Profile'
 import Provider from './Provider'
 import ResultsProvidersList from './ResultsProvidersList'
 import WishList from './WishList'
-import SearchAndResults from './SearchAndResults'
+//import SearchAndResults from './__SearchAndResults'
+import ProviderProfile from './ProviderProfile'
 
 
 export {
@@ -21,6 +22,7 @@ export {
     Profile,
     Provider,
     ResultsProvidersList,
-    WishList,
-    SearchAndResults
+    //WishList,
+    //SearchAndResults,
+    ProviderProfile
 }

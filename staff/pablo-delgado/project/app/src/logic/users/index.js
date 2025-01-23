@@ -8,6 +8,7 @@ import isUserRoleCustomer from './isUserLoggedIn'
 import isUserRoleProvider from './isUserRoleProvider'
 import logoutUser from './logoutUser'
 import getWishList from './getWishList'
+import searchProviders from './searchProviders'
 
 export {
     registerUser,
@@ -19,5 +20,6 @@ export {
     isUserRoleCustomer,
     isUserRoleProvider,
     logoutUser,
-    getWishList
+    getWishList,
+    searchProviders
 }

@@ -6,14 +6,14 @@ import {
     isUserRoleCustomer,
     getUserId,
     logoutUser,
-    registerUser
+    registerUser,
+    searchProviders
 } from './users'
 
 //import { getCategories } from './searchBar'
 //import { SearchWithGeo } from './searchBar'
 //import { searchServices } from './searchBar'
-import { getAllProviders } from './searchBar'
-import { searchProviders } from './searchBar'
+//import { getAllProviders } from './searchBar'
 
 const logic = {
     loginUser,
@@ -24,7 +24,7 @@ const logic = {
     getUserId,
     logoutUser,
     registerUser,
-    getAllProviders,
+    //getAllProviders,
     searchProviders
     //getCategories,
     //SearchWithGeo,

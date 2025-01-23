@@ -4,7 +4,8 @@ import express from 'express'
 import cors from 'cors'
 
 import { errorHandler } from './routes/helpers/index.js'
-import { usersRouter } from './routes/index.js'
+import { usersRouter, providersRouter } from './routes/index.js'
+import { categorySearch } from './routes/providers/handlers/index.js'
 //import { explorer } from './routes/explorer/index.js'
 
 db.connect(process.env.MONGO_URL).then(() => {
@@ -17,10 +18,7 @@ db.connect(process.env.MONGO_URL).then(() => {
     server.get('/', (_, res) => res.send('Hello, API!'))
 
     server.use('/users', usersRouter)
-
-    //server.use('/category', categoryRouter)
-
-    //server.use('/explorer', explorer)
+    server.use('/providers', categorySearch)
 
     server.use(errorHandler)
 
