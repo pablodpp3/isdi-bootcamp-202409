@@ -16,6 +16,7 @@ import {
     toggleLikePost,
     savePost,
     getSavedPosts,
+    removeFromFavourites,
 
     addComment,
     removeComment,
@@ -38,6 +39,7 @@ const logic = {
     toggleLikePost,
     savePost,
     getSavedPosts,
+    removeFromFavourites,
 
     addComment,
     removeComment,

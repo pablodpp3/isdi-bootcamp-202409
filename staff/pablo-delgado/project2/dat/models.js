@@ -34,7 +34,8 @@ const user = new Schema({
     },
     savedPosts: [{
         type: ObjectId,
-        ref: 'Post'
+        ref: 'Post',
+        default: []
     }]
 }, { versionKey: false })
 

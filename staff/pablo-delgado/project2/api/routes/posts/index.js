@@ -10,7 +10,8 @@ import {
     removeCommentHandler,
     getCommentsHandler,
     savePostHandler,
-    getSavedPostsHandler
+    getSavedPostsHandler,
+    removeFromFavouritesHandler
 } from './handlers/index.js'
 
 const postsRouter = Router()
@@ -18,6 +19,7 @@ const postsRouter = Router()
 postsRouter.post('/', jsonBodyParser, authorizationHandler, createPostHandler)
 postsRouter.get('/', authorizationHandler, getPostsHandler)
 postsRouter.get('/saved', authorizationHandler, getSavedPostsHandler)
+postsRouter.delete('/:postId/save', authorizationHandler, removeFromFavouritesHandler)
 postsRouter.delete('/:postId', authorizationHandler, deletePostHandler)
 postsRouter.patch('/:postId/likes', authorizationHandler, toggleLikePostHandler)
 postsRouter.patch('/:postId/save', authorizationHandler, savePostHandler)

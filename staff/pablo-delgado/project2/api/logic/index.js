@@ -14,7 +14,8 @@ import {
     removeComment,
     getComments,
     savePost,
-    getSavedPosts
+    getSavedPosts,
+    removeFromFavourites
 } from './posts/index.js'
 
 const logic = {
@@ -31,7 +32,8 @@ const logic = {
     removeComment,
     getComments,
     savePost,
-    getSavedPosts
+    getSavedPosts,
+    removeFromFavourites
 }
 
 export default logic

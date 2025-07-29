@@ -4,10 +4,12 @@ import toggleLikePost from './toggleLikePost'
 import deletePost from './deletePost'
 import savePost from './savePost'
 import getSavedPosts from './getSavedPosts'
+import removeFromFavourites from './removeFromFavourites'
 
 import addComment from './addComment'
 import getComments from './getComments'
 import removeComment from './removeComment'
+
 
 export {
     createPost,
@@ -16,6 +18,7 @@ export {
     deletePost,
     savePost,
     getSavedPosts,
+    removeFromFavourites,
 
     addComment,
     getComments,

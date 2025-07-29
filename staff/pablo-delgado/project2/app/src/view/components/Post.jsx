@@ -11,7 +11,7 @@ import useContext from '../useContext'
 
 import './Post.css'
 
-export default function Post({ post, onLiked, onDeleted, onCommentAdded, onCommentRemoved, onSaved = () => {} }) {
+export default function Post({ post, onLiked, onDeleted, onCommentAdded, onCommentRemoved, onSaved, onUnsaved = () => {} }) {
     const [view, setView] = useState(null)
 
     const { alert, confirm } = useContext()
@@ -69,7 +69,7 @@ export default function Post({ post, onLiked, onDeleted, onCommentAdded, onComme
         try {
             logic.savePost(id)
                 .then(() => {
-                    alert('Post saved in ⭐')
+                    alert('Post saved in favourites')
                     onSaved?.()
                 })
                 .catch(error => {
@@ -101,7 +101,22 @@ export default function Post({ post, onLiked, onDeleted, onCommentAdded, onComme
 
         <Button onClick={handleCommentsClick}>💬 {comments}</Button>
 
-        <Button onClick={handleSaveClick}>⭐</Button>
+        <Button onClick={() => {
+            if (onUnsaved) {
+                logic.removeFromFavourites(id)
+                    .then(() => {
+                        alert('Post removed from favourites')
+                        onUnsaved()
+                    })
+                    .catch(error => {
+                        alert(error.message)
+                        console.error(error)
+                    })
+            } else {
+                handleSaveClick()
+            }
+        }}>⭐</Button>
+
 
         {logic.isUserRoleModerator() && <Button>💀</Button>}
 

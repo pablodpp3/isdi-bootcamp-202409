@@ -7,6 +7,7 @@ import removeComment from './removeComment.js'
 import getComments from './getComments.js'
 import savePost from './savePost.js'
 import getSavedPosts from './getSavedPosts.js'
+import removeFromFavourites from './removeFromFavourites.js'
 
 export {
     createPost,
@@ -18,5 +19,6 @@ export {
     removeComment,
     getComments,
     savePost,
-    getSavedPosts
+    getSavedPosts,
+    removeFromFavourites
 }

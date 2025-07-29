@@ -7,6 +7,7 @@ import removeCommentHandler from './removeCommentHandler.js'
 import getCommentsHandler from './getCommentsHandler.js'
 import savePostHandler from './savePostHandler.js'
 import getSavedPostsHandler from './getSavedPostsHandler.js'
+import removeFromFavouritesHandler from './removeFromFavouritesHandler.js'
 
 export {
     createPostHandler,
@@ -17,5 +18,6 @@ export {
     removeCommentHandler,
     getCommentsHandler,
     savePostHandler,
-    getSavedPostsHandler
+    getSavedPostsHandler,
+    removeFromFavouritesHandler
 }

@@ -7,11 +7,11 @@
     "scripts": {
         "start": "node .",
         "inspect": "node --inspect-brk .",
-        "test": "mocha logic/*.spec.js",
+        "test": "mocha ./logic/**/*.spec.js",
         "test-one": "mocha",
         "test-inspect": "mocha --inspect-brk logic/*.spec.js",
         "test-inspect-one": "mocha --inspect-brk",
-        "coverage": "c8 --experimental-monocart --reporter=html --reporter=text mocha logic/*.spec.js --timeout 20000"
+        "coverage": "c8 --experimental-monocart --reporter=html --reporter=text mocha ./logic/**/*.spec.js --timeout 20000np"
     },
     "keywords": [],
     "author": "",
@@ -30,6 +30,7 @@
         "chai-as-promised": "^8.0.1",
         "dotenv": "^17.2.0",
         "mocha": "^10.8.2",
-        "monocart-coverage-reports": "^2.12.6"
+        "monocart-coverage-reports": "^2.12.6",
+        "nyc": "^17.1.0"
     }
 }
